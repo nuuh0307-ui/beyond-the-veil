@@ -1,0 +1,181 @@
+
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width,initial-scale=1">
+<meta name="theme-color" content="#17111c">
+<title>Beyond the Veil</title>
+<style>
+*{box-sizing:border-box}
+body{margin:0;background:#120d14;color:#eadfce;font-family:Georgia,serif}
+header{text-align:center;padding:22px;border-bottom:1px solid #786044;color:#d4b477;letter-spacing:4px}
+main{max-width:760px;margin:auto;padding:20px}
+.book{border:1px solid #806749;background:linear-gradient(145deg,#30212b,#171119);padding:30px 20px;text-align:center;box-shadow:0 15px 45px #0008}
+h1{font-size:42px;font-weight:normal;color:#e2c58e;margin:15px 0}
+h2{color:#d4b477;font-weight:normal}
+p{line-height:1.6;color:#c6b8ad}
+button{background:#49313c;border:1px solid #b99a67;color:#f5e8d1;padding:12px 16px;margin:5px;cursor:pointer}
+button:hover{background:#674653}
+input,select,textarea{width:100%;padding:12px;background:#171119;color:#eee;border:1px solid #806749;margin:6px 0 14px}
+textarea{min-height:100px}
+.panel{background:#211821;border:1px solid #57434a;padding:18px;margin-top:18px}
+label{color:#d4b477;font-size:13px}
+.hidden{display:none}
+.place{border:1px solid #57434a;padding:12px;margin:8px 0;background:#2b2028}
+.small{font-size:12px;color:#aa9b91}
+</style>
+</head>
+<body>
+<header>✧ CHRONICLES ✧</header>
+<main>
+<section id="home" class="book">
+<div style="font-size:40px;color:#d4b477">✧</div>
+<p>UM UNIVERSO. MUITAS HISTÓRIAS.</p>
+<h1>Beyond<br>the Veil</h1>
+<p>Cinco anos após Legacies, o mundo sobrenatural continua em movimento.</p>
+<button onclick="show('create')">INICIAR JORNADA</button>
+<button onclick="resume()">CONTINUAR HISTÓRIA</button>
+<p class="small">Mystic Falls · Nova Orleans · Escola Salvatore</p>
+</section>
+
+<section id="create" class="panel hidden">
+<h2>Criar protagonista</h2>
+<label>Tipo de personagem</label>
+<select id="kind" onchange="toggleKind()">
+<option value="original">Personagem original</option>
+<option value="canon">Personagem canônico</option>
+</select>
+<div id="original">
+<label>Nome</label><input id="name" placeholder="Nome do personagem">
+</div>
+<div id="canonical" class="hidden">
+<label>Personagem</label>
+<select id="canon">
+<option>Damon Salvatore</option><option>Elena Gilbert</option>
+<option>Stefan Salvatore</option><option>Bonnie Bennett</option>
+<option>Caroline Forbes</option><option>Hope Mikaelson</option>
+<option>Klaus Mikaelson</option><option>Elijah Mikaelson</option>
+<option>Rebekah Mikaelson</option><option>Freya Mikaelson</option>
+<option>Josie Saltzman</option><option>Lizzie Saltzman</option>
+<option>Alaric Saltzman</option><option>Kol Mikaelson</option>
+<option>Davina Claire</option><option>Marcel Gerard</option>
+</select>
+</div>
+<label>Espécie</label>
+<select id="species">
+<option>Humano</option><option>Vampiro</option><option>Bruxa</option>
+<option>Lobisomem</option><option>Híbrido</option>
+<option>Tribrido</option><option>Herege</option>
+</select>
+<label>Conexões e parentescos</label>
+<input id="links" placeholder="Ex.: filha de Damon e Elena">
+<label>História e personalidade</label>
+<textarea id="bio" placeholder="Conte um pouco sobre seu personagem..."></textarea>
+<label>Onde começa?</label>
+<select id="city">
+<option>Mystic Falls</option><option>Nova Orleans</option>
+<option>Escola Salvatore</option>
+</select>
+<button onclick="create()">CRIAR PERSONAGEM</button>
+<button onclick="show('home')">VOLTAR</button>
+</section>
+
+<section id="game" class="panel hidden">
+<p class="small">CAMPANHA ATIVA</p>
+<h2 id="hero"></h2>
+<p id="location"></p>
+<label>O que seu personagem faz ou diz?</label>
+<textarea id="action" placeholder="Escreva livremente sua ação..."></textarea>
+<button onclick="act()">REGISTRAR CENA</button>
+<button onclick="show('map')">EXPLORAR</button>
+<button onclick="show('diary')">DIÁRIO</button>
+<div id="scenes"></div>
+</section>
+
+<section id="map" class="panel hidden">
+<h2>Escolha seu destino</h2>
+<div id="places"></div>
+<button onclick="show('game')">VOLTAR</button>
+</section>
+
+<section id="diary" class="panel hidden">
+<h2>Diário da campanha</h2>
+<div id="entries"></div>
+<button onclick="show('game')">VOLTAR</button>
+</section>
+</main>
+<script>
+const key='beyondVeilSave';
+let data=JSON.parse(localStorage.getItem(key)||'{"hero":null,"scenes":[]}');
+const places={
+'Mystic Falls':['Casa dos Salvatore','Mystic Grill','Praça da cidade','Casa dos Gilbert','Hospital','Floresta','Cemitério'],
+'Nova Orleans':['Complexo Mikaelson','French Quarter','Abattoir','Cemitério Lafayette','Bayou'],
+'Escola Salvatore':['Prédio principal','Dormitórios','Biblioteca','Ginásio','Jardins']
+};
+function save(){localStorage.setItem(key,JSON.stringify(data))}
+function show(id){
+['home','create','game','map','diary'].forEach(x=>document.getElementById(x).classList.add('hidden'));
+document.getElementById(id).classList.remove('hidden');
+if(id==='game')renderGame();
+if(id==='map')renderMap();
+if(id==='diary')renderDiary();
+}
+function toggleKind(){
+let c=document.getElementById('kind').value==='canon';
+document.getElementById('original').classList.toggle('hidden',c);
+document.getElementById('canonical').classList.toggle('hidden',!c);
+}
+function create(){
+let kind=document.getElementById('kind').value;
+let name=kind==='canon'?document.getElementById('canon').value:document.getElementById('name').value.trim();
+if(!name){alert('Digite o nome do personagem.');return}
+data.hero={
+name,kind,
+species:document.getElementById('species').value,
+links:document.getElementById('links').value,
+bio:document.getElementById('bio').value,
+city:document.getElementById('city').value,
+place:'Início'
+};
+data.scenes=[];
+save();show('game');
+}
+function resume(){show(data.hero?'game':'create')}
+function renderGame(){
+if(!data.hero){show('create');return}
+document.getElementById('hero').textContent=data.hero.name;
+document.getElementById('location').textContent=data.hero.city+' · '+data.hero.place+' · '+data.hero.species;
+document.getElementById('scenes').innerHTML='<h2>Últimas cenas</h2>'+data.scenes.slice(-5).reverse().map(s=>'<p>'+escapeHTML(s)+'</p>').join('');
+}
+function act(){
+let t=document.getElementById('action').value.trim();
+if(!t)return;
+data.scenes.push(new Date().toLocaleString('pt-BR')+' — '+t);
+document.getElementById('action').value='';
+save();renderGame();
+}
+function renderMap(){
+let h='';
+Object.entries(places).forEach(([city,items])=>{
+h+='<div class="place"><h2>'+city+'</h2>';
+items.forEach(p=>{
+h+='<button onclick="travel('+JSON.stringify(city)+','+JSON.stringify(p)+')">'+p+'</button>';
+});
+h+='</div>';
+});
+document.getElementById('places').innerHTML=h;
+}
+function travel(city,place){
+data.hero.city=city;data.hero.place=place;
+save();show('game');
+}
+function renderDiary(){
+document.getElementById('entries').innerHTML=data.scenes.slice().reverse().map(s=>'<p>'+escapeHTML(s)+'</p>').join('')||'Nenhuma cena registrada.';
+}
+function escapeHTML(s){
+return String(s).replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+}
+</script>
+</body>
+</html>
