@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#160d1b"><title>Beyond the Veil · v2.0.0</title>
+<meta name="theme-color" content="#160d1b"><title>Beyond the Veil · v2.1.0</title>
 <style>
 :root{--bg:#140d18;--panel:#241827;--panel2:#302033;--gold:#c9a96e;--text:#eee0d0;--muted:#bbaab4;--line:#674d62;--red:#9b4055}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#38213c,#140d18 65%);color:var(--text);font-family:Georgia,serif;min-height:100vh}
@@ -71,6 +71,29 @@ body.creator-open{overflow:hidden}
  .creator-summary{grid-template-columns:1fr}
 }
 
+
+/* v2.1 — catálogo visual integrado */
+#extras{max-width:1100px!important}
+.asset-intro{position:relative;overflow:hidden;padding:24px;border:1px solid var(--gold);background:linear-gradient(90deg,#140d18f2,#211426dd),url('assets/Praça_Outonal_do_Relógio.webp') center/cover;margin:0 0 18px}
+.asset-intro h2{margin:4px 0 8px;font-size:clamp(25px,4vw,36px)}
+.asset-filters{display:flex;flex-wrap:wrap;gap:7px;margin:16px 0}
+.asset-filter{padding:8px 12px;font-size:12px;letter-spacing:.5px}
+.asset-filter.active{background:#75435b;border-color:#e0bd83;box-shadow:0 0 0 1px #e0bd83}
+.asset-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(180px,1fr));gap:13px}
+.asset-card{min-width:0;background:#1b1420;border:1px solid #60465c;overflow:hidden}
+.asset-card img{width:100%;height:220px;object-fit:cover;display:block;background:#120d15}
+.asset-card.scene img{height:145px}
+.asset-card-copy{padding:10px 11px}
+.asset-card-title{font-size:14px;color:#ead0a0;line-height:1.35;margin-bottom:6px}
+.asset-card-meta{font:10px Arial;letter-spacing:1px;text-transform:uppercase;color:#c69b72}
+.asset-card-desc{font-size:12px;color:#c4b3bd;line-height:1.45;margin-top:6px}
+.asset-scene-strip{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px;margin:16px 0 22px}
+.asset-scene{min-height:125px;display:flex;align-items:end;padding:12px;border:1px solid #9a7655;background-size:cover;background-position:center;position:relative;overflow:hidden}
+.asset-scene:before{content:"";position:absolute;inset:0;background:linear-gradient(0deg,#100a12eF,transparent 80%)}
+.asset-scene strong{position:relative;color:#f1d7ac;text-shadow:0 2px 6px #000;font-size:14px}
+.asset-count{color:#d7bd91;font:12px Arial;margin:10px 0}
+@media(max-width:620px){.asset-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.asset-card img{height:170px}.asset-scene-strip{grid-template-columns:1fr}.asset-scene{min-height:105px}}
+
 </style></head>
 <body class="home-screen">
 <header><div class="brand"><svg viewBox="0 0 100 100" role="img" aria-label="Selo Beyond the Veil"><path d="M50 4 91 27 91 73 50 96 9 73 9 27Z" fill="#211426" stroke="#c9a96e" stroke-width="3"/><path d="M50 15 78 31 78 68 50 84 22 68 22 31Z" fill="none" stroke="#806044"/><path d="M50 20c-19 18-19 39 0 58 19-19 19-40 0-58Z" fill="none" stroke="#c9a96e" stroke-width="2"/><path d="M50 29v42M31 50h38" stroke="#c9a96e" stroke-width="2"/><circle cx="50" cy="50" r="6" fill="#9b4055"/></svg> BEYOND THE VEIL</div><span class="ver">VERSÃO 2.0.0</span></header>
@@ -124,16 +147,37 @@ body.creator-open{overflow:hidden}
 <div class="settings-row"><div><b>Reduzir animações</b><p class="small">Diminui efeitos de movimento na interface.</p></div><label style="margin:0"><input id="reduceMotion" type="checkbox" style="width:auto" onchange="setReducedMotion(this.checked)"> Ativar</label></div>
 <div class="settings-row"><div><b>Salvamento</b><p class="small">As campanhas são salvas automaticamente neste navegador.</p></div><span class="small">Automático</span></div>
 <button class="secondary" onclick="show('home')">VOLTAR AO MENU</button></section>
-<section id="extras" class="panel hidden"><h2>Extras</h2>
-<div class="story"><b>BEYOND THE VEIL</b>
+<section id="extras" class="panel hidden">
+<div class="asset-intro">
+ <div class="tag">Beyond the Veil · Arquivo visual</div>
+ <h2>O acervo do Véu</h2>
+ <p class="creator-hint">As artes do pack BTV organizadas por função narrativa. Retratos podem representar NPCs ou servir como referências visuais; nenhuma identidade é atribuída automaticamente.</p>
+</div>
+<div class="asset-scene-strip">
+ <div class="asset-scene" style="background-image:url('assets/Praça_Outonal_do_Relógio.webp')"><strong>Mystic Falls · fundo ilustrativo</strong></div>
+ <div class="asset-scene" style="background-image:url('assets/Noite_no_Bairro_Francês_sob_a_Lua_Vermelha.webp')"><strong>Nova Orleans · fundo ilustrativo</strong></div>
+ <div class="asset-scene" style="background-image:url('assets/Cidade_Medieval_ao_Pôr_do_Sol.webp')"><strong>Outros lugares · fundo ilustrativo</strong></div>
+</div>
+<div class="asset-count" id="assetCount">28 artes no acervo</div>
+<div class="asset-filters" id="assetFilters">
+ <button class="asset-filter active" data-filter="Todos" onclick="renderVisualLibrary('Todos')">TODOS</button>
+ <button class="asset-filter secondary" data-filter="Retratos" onclick="renderVisualLibrary('Retratos')">RETRATOS</button>
+ <button class="asset-filter secondary" data-filter="Bruxaria" onclick="renderVisualLibrary('Bruxaria')">BRUXARIA E RITUAIS</button>
+ <button class="asset-filter secondary" data-filter="Lobisomens" onclick="renderVisualLibrary('Lobisomens')">LOBISOMENS</button>
+ <button class="asset-filter secondary" data-filter="Cenários" onclick="renderVisualLibrary('Cenários')">CENÁRIOS</button>
+</div>
+<div class="asset-grid" id="assetGrid"></div>
+<hr class="rule">
+<div class="story"><b>Como o acervo será usado</b>
 
-Um RPG narrativo sobrenatural ambientado no universo de The Vampire Diaries, The Originals e Legacies.
+• Retratos: imagens disponíveis para NPCs com identidade definida posteriormente ou como referências visuais.
+• Bruxaria e rituais: ambientação e referências para os futuros fluxos de bruxas.
+• Lobisomens: referências visuais para personagens e cenas sobrenaturais.
+• Cenários: fundos ilustrativos de telas e passagens narrativas, não locais clicáveis nesta integração.
 
-Cada campanha é um universo próprio. Cada escolha deixa marcas. E nem toda história termina quando o véu se fecha.
-
-Desenvolvimento: projeto Beyond the Veil
-Versão 1.6.0</div>
-<button class="secondary" onclick="show('home')">VOLTAR AO MENU</button></section>
+O editor modular de avatar em pixel art continua sendo uma etapa futura: estas artes são ilustrações completas, não peças separadas de cabelo, olhos ou roupas.</div>
+<button class="secondary" onclick="show('home')">VOLTAR AO MENU</button>
+</section>
 <section id="time" class="panel hidden"><h2>O tempo não espera</h2><p>O universo inteiro continuará existindo durante o intervalo. Você não escolhe o que acontece enquanto os anos passam.</p><label>Avançar</label><select id="years"><option value="1">1 ano</option><option value="2">2 anos</option><option value="3">3 anos</option><option value="5">5 anos</option><option value="10">10 anos</option><option value="20">20 anos</option></select><div class="notice warning"><b>ATENÇÃO — AÇÃO IRREVERSÍVEL</b><br>Personagens podem morrer, nascer, mudar de lado, se apaixonar, desaparecer ou retornar. Relações e cidades podem mudar. Não será possível desfazer o avanço nem recuperar o estado anterior desta campanha.</div><label><input id="agree" type="checkbox" style="width:auto"> Entendo que esta decisão é permanente.</label><button class="danger" onclick="advance()">CONFIRMAR AVANÇO DEFINITIVO</button><button class="secondary" onclick="show('game')">CANCELAR</button></section>
 
 <section id="creatorWizard" class="hidden" aria-modal="true" role="dialog">
@@ -154,7 +198,7 @@ Versão 1.6.0</div>
  </div>
 </section>
 
-</main><div class="foot">BEYOND THE VEIL · v2.0.0 · O véu guarda cada história.</div>
+</main><div class="foot">BEYOND THE VEIL · v2.1.0 · O véu guarda cada história.</div>
 <script>
 const KEY='beyondVeil_worlds_v110';let worlds=JSON.parse(localStorage.getItem(KEY)||'[]'),active=localStorage.getItem(KEY+'_active')||'',d=worlds.find(x=>x.id===active)||null;
 const places={'Mystic Falls':['Casa dos Salvatore','Mystic Grill','Praça da cidade','Casa dos Gilbert','Hospital','Floresta','Cemitério'],'Nova Orleans':['Complexo Mikaelson','French Quarter','Abattoir','Cemitério Lafayette','Bayou'],'Escola Salvatore':['Prédio principal','Dormitórios','Biblioteca','Ginásio','Jardins']};
@@ -175,7 +219,45 @@ function generateReturn(name,year){
 
 const pick=a=>a[Math.floor(Math.random()*a.length)],id=()=>'BV-'+Math.random().toString(36).slice(2,7).toUpperCase()+'-'+Date.now().toString(36).toUpperCase(),esc=s=>String(s||'').replace(/[&<>"']/g,c=>({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 function save(){localStorage.setItem(KEY,JSON.stringify(worlds));localStorage.setItem(KEY+'_active',active)}
-function show(s){['home','create','worlds','game','map','diary','settings','extras','time'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(s).classList.remove('hidden');document.body.classList.toggle('home-screen',s==='home');if(s==='game')render();if(s==='worlds')renderWorlds();if(s==='map')renderMap();if(s==='diary')renderDiary();if(s==='settings')document.getElementById('reduceMotion').checked=document.body.classList.contains('reduce-motion')}
+function show(s){['home','create','worlds','game','map','diary','settings','extras','time'].forEach(x=>document.getElementById(x).classList.add('hidden'));document.getElementById(s).classList.remove('hidden');document.body.classList.toggle('home-screen',s==='home');if(s==='game')render();if(s==='worlds')renderWorlds();if(s==='map')renderMap();if(s==='diary')renderDiary();if(s==='settings')document.getElementById('reduceMotion').checked=document.body.classList.contains('reduce-motion');if(s==='extras')renderVisualLibrary('Todos')}
+
+const visualAssets=[
+ {file:'Bruxa_da_Biblioteca_Arcana.webp',title:'Bruxa da Biblioteca Arcana',category:'Bruxaria',desc:'Retrato de bruxa com energia arcana. Referência visual para personagens e cenas de estudo mágico.'},
+ {file:'Bruxa_da_Floresta_Encantada.webp',title:'Bruxa da Floresta Encantada',category:'Bruxaria',desc:'Cena de bruxaria em meio à natureza. Referência para magia ligada à floresta.'},
+ {file:'Bruxa_e_Orbe_de_Energia_Violeta.webp',title:'Bruxa e Orbe de Energia Violeta',category:'Bruxaria',desc:'Ilustração de manipulação de energia mágica.'},
+ {file:'Carta_Pixel_Art_do_Lobisomem_sob_a_Lua.webp',title:'Carta Pixel Art do Lobisomem',category:'Lobisomens',desc:'Carta ilustrada para referência visual de lobisomem.'},
+ {file:'Cidade_Medieval_ao_Pôr_do_Sol.webp',title:'Cidade Medieval ao Pôr do Sol',category:'Cenários',desc:'Fundo ilustrativo para cenas em outros lugares.'},
+ {file:'Feiticeira_no_Ritual_do_Cálice_Rubro.webp',title:'Feiticeira no Ritual do Cálice Rubro',category:'Bruxaria',desc:'Cena ritualística para narrativas e acontecimentos sobrenaturais.'},
+ {file:'Feiticeira_sob_o_Eclipse_Rubro.webp',title:'Feiticeira sob o Eclipse Rubro',category:'Bruxaria',desc:'Cena de magia sob um eclipse, para momentos narrativos especiais.'},
+ {file:'Lobisomem_Sob_a_Lua_Dourada.webp',title:'Lobisomem sob a Lua Dourada',category:'Lobisomens',desc:'Ilustração de lobisomem em transformação ou manifestação sobrenatural.'},
+ {file:'Noite_no_Bairro_Francês_sob_a_Lua_Vermelha.webp',title:'Noite no Bairro Francês',category:'Cenários',desc:'Fundo ilustrativo para cenas ambientadas em Nova Orleans.'},
+ {file:'Praça_Outonal_do_Relógio.webp',title:'Praça Outonal do Relógio',category:'Cenários',desc:'Fundo ilustrativo para cenas ambientadas em Mystic Falls.'},
+ {file:'Retrato_Aristocrático_em_Pixel_Art.webp',title:'Retrato Aristocrático em Pixel Art',category:'Retratos',desc:'Retrato disponível para um NPC futuro ou como referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Erudito_à_Luz_de_Velas.webp',title:'Retrato Erudito à Luz de Velas',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_Sob_a_Lua_Vermelha_1.webp',title:'Retrato Gótico sob a Lua Vermelha I',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_Sob_a_Lua_Vermelha_2.webp',title:'Retrato Gótico sob a Lua Vermelha II',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_ao_Entardecer.webp',title:'Retrato Gótico ao Entardecer',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_com_Magia_Rubra.webp',title:'Retrato Gótico com Magia Rubra',category:'Retratos',desc:'Retrato com elemento mágico, disponível para NPC ou referência visual.'},
+ {file:'Retrato_Gótico_do_Vampiro_Carmesim.webp',title:'Retrato do Vampiro Carmesim',category:'Retratos',desc:'Retrato temático de vampiro, disponível para NPC ou referência visual.'},
+ {file:'Retrato_Gótico_sob_Lua_de_Sangue.webp',title:'Retrato Gótico sob Lua de Sangue',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_sob_a_Lua_Carmesim.webp',title:'Retrato Gótico sob a Lua Carmesim',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_sob_a_Lua_Vermelha.webp',title:'Retrato Gótico sob a Lua Vermelha',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_sob_a_Lua_de_Sangue.webp',title:'Retrato Gótico sob a Lua de Sangue',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Gótico_à_Luz_de_Velas.webp',title:'Retrato Gótico à Luz de Velas',category:'Retratos',desc:'Composição de retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Místico_sob_a_Lua_Vermelha.webp',title:'Retrato Místico sob a Lua Vermelha',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_Pixelado_ao_Entardecer.webp',title:'Retrato Pixelado ao Entardecer',category:'Retratos',desc:'Retrato em pixel art disponível para referência visual ou NPC futuro.'},
+ {file:'Retrato_Sombrio_na_Floresta_Outonal.webp',title:'Retrato Sombrio na Floresta Outonal',category:'Retratos',desc:'Retrato disponível para NPC ou referência visual. Identidade ainda não atribuída.'},
+ {file:'Retrato_de_Vampiro_Lobisomem_em_Moldura_Dourada.webp',title:'Retrato de Vampiro-Lobisomem',category:'Lobisomens',desc:'Retrato de personagem híbrido vampiro-lobisomem. Identidade ainda não atribuída.'},
+ {file:'Ritual_de_Magia_Ancestral.webp',title:'Ritual de Magia Ancestral',category:'Bruxaria',desc:'Cena ampla de ritual mágico para ambientação narrativa.'},
+ {file:'Ritual_dos_Viajantes_Sob_a_Lua.webp',title:'Ritual dos Viajantes sob a Lua',category:'Bruxaria',desc:'Cena de ritual coletivo para referências e acontecimentos sobrenaturais.'}
+];
+function renderVisualLibrary(filter='Todos'){
+ const grid=document.getElementById('assetGrid');if(!grid)return;
+ const list=filter==='Todos'?visualAssets:visualAssets.filter(a=>a.category===filter);
+ document.getElementById('assetCount').textContent=`${list.length} ${list.length===1?'arte':'artes'} ${filter==='Todos'?'no acervo':'em '+filter.toLowerCase()}`;
+ document.querySelectorAll('.asset-filter').forEach(b=>{const active=b.dataset.filter===filter;b.classList.toggle('active',active);b.classList.toggle('secondary',!active)});
+ grid.innerHTML=list.map(a=>`<article class="asset-card ${a.category==='Cenários'?'scene':''}"><img src="assets/${a.file}" alt="${a.title}" loading="lazy"><div class="asset-card-copy"><div class="asset-card-meta">${a.category}</div><div class="asset-card-title">${a.title}</div><div class="asset-card-desc">${a.desc}</div></div></article>`).join('');
+}
 function continueGame(){if(d){active=d.id;save();show('game');return}if(worlds.length){show('worlds');return}alert('Você ainda não tem uma campanha salva. Escolha Novo Jogo para começar.')}
 function setReducedMotion(enabled){document.body.classList.toggle('reduce-motion',!!enabled);localStorage.setItem('beyondVeil_reduceMotion',enabled?'1':'0')}
 if(localStorage.getItem('beyondVeil_reduceMotion')==='1')document.body.classList.add('reduce-motion');
@@ -370,6 +452,11 @@ function finishCreator(){
  if(creatorCreatedId){const oldIndex=worlds.findIndex(w=>w.id===creatorCreatedId);if(oldIndex>=0)worlds[oldIndex]=d;else worlds.push(d)}else{worlds.push(d)}creatorCreatedId=d.id;active=d.id;save();
  document.getElementById('creatorWizard').classList.add('hidden');
  document.getElementById('prehistory').classList.remove('hidden');
+ const sceneByOrigin={'Mystic Falls':'Praça_Outonal_do_Relógio.webp','Nova Orleans':'Noite_no_Bairro_Francês_sob_a_Lua_Vermelha.webp','Outro Lugar':'Cidade_Medieval_ao_Pôr_do_Sol.webp'};
+ const sceneFile=sceneByOrigin[creatorData.origin]||sceneByOrigin['Mystic Falls'];
+ document.getElementById('prehistory').style.backgroundImage=`linear-gradient(90deg,#100b12e8,#100b12d9),url('assets/${sceneFile}')`;
+ document.getElementById('prehistory').style.backgroundSize='cover';
+ document.getElementById('prehistory').style.backgroundPosition='center';
  document.body.classList.add('creator-open');
  document.getElementById('prehistoryText').textContent='';
  typeWriter(prologue,0);
