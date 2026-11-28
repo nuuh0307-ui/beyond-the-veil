@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#160d1b"><title>Beyond the Veil · v1.6.0</title>
+<meta name="theme-color" content="#160d1b"><title>Beyond the Veil · v2.0.0</title>
 <style>
 :root{--bg:#140d18;--panel:#241827;--panel2:#302033;--gold:#c9a96e;--text:#eee0d0;--muted:#bbaab4;--line:#674d62;--red:#9b4055}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#38213c,#140d18 65%);color:var(--text);font-family:Georgia,serif;min-height:100vh}
@@ -28,9 +28,52 @@ body.home-screen{background:#100b12}
 .settings-row{display:flex;align-items:center;justify-content:space-between;gap:14px;padding:12px 0;border-bottom:1px solid var(--line)}
 body.home-screen header,body.home-screen .foot{display:none}body.home-screen main{max-width:none;padding:0}body.reduce-motion *{transition:none!important;animation:none!important;scroll-behavior:auto!important}
 @media(max-width:600px){#home.home-art{min-height:calc(100vh - 58px);background-position:54% center}.home-menu{padding:10px}.home-logo{font-size:58px}.home-menu-buttons button{min-height:52px}}
+
+/* v2.0 — criação de personagem original */
+body.creator-open{overflow:hidden}
+#creatorWizard,#prehistory{position:fixed;inset:0;z-index:20;overflow:auto;background:linear-gradient(90deg,#100b12e8,#100b12d9),url('btv-home.webp') center/cover fixed;display:flex;align-items:center;justify-content:center;padding:18px}
+.creator-shell{width:min(980px,100%);max-height:calc(100vh - 36px);overflow:auto;background:linear-gradient(145deg,#2b1c30f2,#140e19f5);border:1px solid #8a694e;box-shadow:0 20px 70px #000c;padding:clamp(16px,3vw,30px);position:relative}
+.creator-top{display:flex;justify-content:space-between;align-items:center;gap:12px;border-bottom:1px solid #674d62;padding-bottom:12px;margin-bottom:18px}
+.creator-progress{height:4px;background:#39283b;margin:12px 0 22px}.creator-progress span{display:block;height:100%;background:linear-gradient(90deg,#8d2639,#d4ad77);transition:width .2s}
+.creator-kicker{font:11px Arial;letter-spacing:2px;color:#d0a66d;text-transform:uppercase}
+.creator-question{font-size:clamp(25px,4vw,38px);font-weight:normal;color:#f0d5aa;margin:8px 0}
+.creator-hint{color:#c4b3bd;font-size:14px;line-height:1.5}
+.creator-field{max-width:650px;margin:20px auto; text-align:left}
+.creator-field input,.creator-field textarea,.creator-field select{font-size:17px}
+.creator-options{display:grid;grid-template-columns:repeat(auto-fit,minmax(150px,1fr));gap:10px;margin:20px 0}
+.creator-option{border:1px solid #76566b;background:#211725;padding:14px;text-align:left;cursor:pointer;min-height:70px;color:#f0e4d8;transition:.15s}
+.creator-option.selected{border-color:#d2ad75;background:#4a293a;box-shadow:inset 0 0 0 1px #d2ad75}
+.creator-option small{display:block;color:#c4b3bd;margin-top:6px}
+.creator-option:disabled{opacity:.32;cursor:not-allowed;filter:grayscale(1)}
+.creator-lineage{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:10px}
+.creator-lineage .creator-option{min-height:110px;text-align:center}
+.creator-lineage strong{display:block;color:#e4c58e;margin-top:8px}
+.creator-location{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px}
+.creator-location .creator-option{padding:0;overflow:hidden;text-align:center}
+.creator-location img{width:100%;height:115px;object-fit:cover;display:block}
+.creator-location span{display:block;padding:10px}
+.creator-actions{display:flex;justify-content:space-between;gap:10px;margin-top:24px;padding-top:14px;border-top:1px solid #674d62}
+.creator-actions button{min-width:120px}
+.creator-chip{display:inline-flex;align-items:center;gap:6px;padding:7px 10px;margin:4px;border:1px solid #75566b;background:#211725;cursor:pointer}
+.creator-chip.selected{background:#642d40;border-color:#d5aa73}
+.creator-summary{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:8px;text-align:left}
+.creator-summary div{background:#1b1420;border:1px solid #594255;padding:10px;font-size:13px}
+.creator-summary b{display:block;color:#d5ad77;margin-bottom:4px;font-weight:normal}
+#prehistory .creator-shell{max-width:760px}
+.typewriter{white-space:pre-wrap;line-height:1.8;font-size:16px;min-height:180px}
+@media(max-width:600px){
+ #creatorWizard,#prehistory{padding:8px;align-items:stretch}
+ .creator-shell{max-height:100%;padding:14px}
+ .creator-lineage{grid-template-columns:repeat(2,minmax(0,1fr))}
+ .creator-location{grid-template-columns:1fr}
+ .creator-location img{height:95px}
+ .creator-actions button{min-width:0;flex:1;padding:10px 8px}
+ .creator-summary{grid-template-columns:1fr}
+}
+
 </style></head>
 <body class="home-screen">
-<header><div class="brand"><svg viewBox="0 0 100 100" role="img" aria-label="Selo Beyond the Veil"><path d="M50 4 91 27 91 73 50 96 9 73 9 27Z" fill="#211426" stroke="#c9a96e" stroke-width="3"/><path d="M50 15 78 31 78 68 50 84 22 68 22 31Z" fill="none" stroke="#806044"/><path d="M50 20c-19 18-19 39 0 58 19-19 19-40 0-58Z" fill="none" stroke="#c9a96e" stroke-width="2"/><path d="M50 29v42M31 50h38" stroke="#c9a96e" stroke-width="2"/><circle cx="50" cy="50" r="6" fill="#9b4055"/></svg> BEYOND THE VEIL</div><span class="ver">VERSÃO 1.6.0</span></header>
+<header><div class="brand"><svg viewBox="0 0 100 100" role="img" aria-label="Selo Beyond the Veil"><path d="M50 4 91 27 91 73 50 96 9 73 9 27Z" fill="#211426" stroke="#c9a96e" stroke-width="3"/><path d="M50 15 78 31 78 68 50 84 22 68 22 31Z" fill="none" stroke="#806044"/><path d="M50 20c-19 18-19 39 0 58 19-19 19-40 0-58Z" fill="none" stroke="#c9a96e" stroke-width="2"/><path d="M50 29v42M31 50h38" stroke="#c9a96e" stroke-width="2"/><circle cx="50" cy="50" r="6" fill="#9b4055"/></svg> BEYOND THE VEIL</div><span class="ver">VERSÃO 2.0.0</span></header>
 <main>
 <section id="home" class="home-art">
 <div class="home-menu">
@@ -38,7 +81,7 @@ body.home-screen header,body.home-screen .foot{display:none}body.home-screen mai
 <h1 class="home-logo">Beyond<em>the Veil</em></h1>
 <div class="home-divider">— ❧ —</div>
 <div class="home-menu-buttons">
-<button onclick="show('create')">Novo Jogo</button>
+<button onclick="startCreator()">Novo Jogo</button>
 <button onclick="continueGame()">Continuar</button>
 <button onclick="show('worlds')">Carregar Jogo</button>
 <button onclick="show('settings')">Configurações</button>
@@ -92,7 +135,26 @@ Desenvolvimento: projeto Beyond the Veil
 Versão 1.6.0</div>
 <button class="secondary" onclick="show('home')">VOLTAR AO MENU</button></section>
 <section id="time" class="panel hidden"><h2>O tempo não espera</h2><p>O universo inteiro continuará existindo durante o intervalo. Você não escolhe o que acontece enquanto os anos passam.</p><label>Avançar</label><select id="years"><option value="1">1 ano</option><option value="2">2 anos</option><option value="3">3 anos</option><option value="5">5 anos</option><option value="10">10 anos</option><option value="20">20 anos</option></select><div class="notice warning"><b>ATENÇÃO — AÇÃO IRREVERSÍVEL</b><br>Personagens podem morrer, nascer, mudar de lado, se apaixonar, desaparecer ou retornar. Relações e cidades podem mudar. Não será possível desfazer o avanço nem recuperar o estado anterior desta campanha.</div><label><input id="agree" type="checkbox" style="width:auto"> Entendo que esta decisão é permanente.</label><button class="danger" onclick="advance()">CONFIRMAR AVANÇO DEFINITIVO</button><button class="secondary" onclick="show('game')">CANCELAR</button></section>
-</main><div class="foot">BEYOND THE VEIL · v1.6.0 · O véu guarda cada história.</div>
+
+<section id="creatorWizard" class="hidden" aria-modal="true" role="dialog">
+ <div class="creator-shell">
+  <div class="creator-top"><div><div class="creator-kicker">Beyond the Veil · Novo personagem</div><div class="small" id="creatorStepLabel">Etapa 1 de 9</div></div><button class="secondary" onclick="closeCreator()">SAIR</button></div>
+  <div class="creator-progress"><span id="creatorProgressBar" style="width:11%"></span></div>
+  <div id="creatorContent"></div>
+  <div class="creator-actions"><button class="secondary" id="creatorBack" onclick="creatorBack()">VOLTAR</button><button id="creatorNext" onclick="creatorNext()">CONTINUAR</button></div>
+ </div>
+</section>
+<section id="prehistory" class="hidden" aria-modal="true" role="dialog">
+ <div class="creator-shell">
+  <div class="creator-kicker">Beyond the Veil · Antes do começo</div>
+  <h2 class="creator-question" id="prehistoryTitle">Sua história antes de Mystic Falls</h2>
+  <p class="creator-hint">Sua personagem já tinha uma vida antes de chegar aqui. Esta é a primeira parte da sua história.</p>
+  <div class="story typewriter" id="prehistoryText"></div>
+  <div class="creator-actions"><button class="secondary" onclick="backToCreator()">VOLTAR À CRIAÇÃO</button><button onclick="enterMysticFalls()">CONTINUAR PARA MYSTIC FALLS</button></div>
+ </div>
+</section>
+
+</main><div class="foot">BEYOND THE VEIL · v2.0.0 · O véu guarda cada história.</div>
 <script>
 const KEY='beyondVeil_worlds_v110';let worlds=JSON.parse(localStorage.getItem(KEY)||'[]'),active=localStorage.getItem(KEY+'_active')||'',d=worlds.find(x=>x.id===active)||null;
 const places={'Mystic Falls':['Casa dos Salvatore','Mystic Grill','Praça da cidade','Casa dos Gilbert','Hospital','Floresta','Cemitério'],'Nova Orleans':['Complexo Mikaelson','French Quarter','Abattoir','Cemitério Lafayette','Bayou'],'Escola Salvatore':['Prédio principal','Dormitórios','Biblioteca','Ginásio','Jardins']};
@@ -238,4 +300,83 @@ async function act(){
 function renderMap(){let el=document.getElementById('places');el.innerHTML=Object.entries(places).map(([c,ps])=>'<div class="place"><h3>'+c+'</h3>'+ps.map(p=>'<button data-city="'+c+'" data-place="'+p+'">'+p+'</button>').join('')+'</div>').join('');el.querySelectorAll('button').forEach(b=>b.onclick=()=>{d.city=b.dataset.city;d.place=b.dataset.place;save();show('game')})}
 function renderDiary(){document.getElementById('entries').innerHTML=d.scenes.slice().reverse().map(x=>'<p>'+esc(x)+'</p>').join('')||'Nenhuma cena registrada.'}
 function advance(){if(!document.getElementById('agree').checked){alert('Marque a confirmação antes de continuar.');return}let n=Number(document.getElementById('years').value);if(!confirm('Avançar '+n+' ano(s) definitivamente? Não será possível desfazer.'))return;d.year+=n;if(d.age!==null)d.age+=n;let e=pick(['Alianças foram refeitas e velhos conflitos ganharam novos rostos.','Algumas pessoas seguiram em frente; outras desapareceram dos círculos conhecidos.','Novos rumores circulam pelas comunidades sobrenaturais.','O período trouxe mudanças que ainda precisam ser descobertas.']);d.scenes.push('ANO '+d.year+' — O tempo avançou '+n+' ano(s). '+e);d.prologue+='\n\nCom o passar dos anos: '+e;save();document.getElementById('agree').checked=false;show('game');alert('Calendário avançado. A mudança é permanente nesta campanha.')}
+
+/* ===== BTV v2.0 — fluxo de criação de personagem original ===== */
+const creatorSteps=['species','name','age','turnYear','lineage','origin','appearance','personality','history','review'];
+let creatorIndex=0, creatorCreatedId=null;
+let creatorData={species:'Vampiro',name:'',age:'',turnYear:'',lineage:'',origin:'',gender:'',skin:'',hairType:'',hairColor:'',eyeColor:'',clothing:'',accessories:'',personality:[],historyMode:'write',history:''};
+const creatorOptions={
+ lineage:['Rebekah Mikaelson','Klaus Mikaelson','Kol Mikaelson','Elijah Mikaelson','Hope Mikaelson','Mistério'],
+ personality:['Leal','Impulsivo(a)','Reservado(a)','Sarcástico(a)','Compassivo(a)','Ambicioso(a)','Sedutor(a)','Desconfiado(a)','Protetor(a)','Vingativo(a)','Curioso(a)','Manipulador(a)'],
+ origins:['Mystic Falls','Nova Orleans','Outro Lugar']
+};
+function startCreator(){
+ creatorData={species:'Vampiro',name:'',age:'',turnYear:'',lineage:'',origin:'',gender:'',skin:'',hairType:'',hairColor:'',eyeColor:'',clothing:'',accessories:'',personality:[],historyMode:'write',history:''};
+ creatorIndex=0;creatorCreatedId=null;renderCreator();document.getElementById('creatorWizard').classList.remove('hidden');document.body.classList.add('creator-open');
+}
+function closeCreator(){document.getElementById('creatorWizard').classList.add('hidden');document.body.classList.remove('creator-open');show('home')}
+function creatorBack(){if(creatorIndex>0){creatorIndex--;renderCreator()}else closeCreator()}
+function setCreatorValue(key,value){creatorData[key]=value;renderCreator()}
+function optionButton(label,key,value,sub=''){let selected=creatorData[key]===value;return `<button type="button" class="creator-option ${selected?'selected':''}" onclick="setCreatorValue('${key}',${JSON.stringify(value).replace(/"/g,'&quot;')})">${label}${sub?`<small>${sub}</small>`:''}</button>`}
+function creatorNext(){
+ const step=creatorSteps[creatorIndex];
+ if(step==='name'&&!creatorData.name.trim()){alert('Digite o nome completo do personagem.');return}
+ if(step==='age'&&(!creatorData.age||Number(creatorData.age)<0)){alert('Informe a idade atual.');return}
+ if(step==='turnYear'&&(!creatorData.turnYear||Number(creatorData.turnYear)<1000||Number(creatorData.turnYear)>2034)){alert('Informe um ano válido para a transformação.');return}
+ if(step==='lineage'&&!creatorData.lineage){alert('Escolha uma linhagem ou Mistério.');return}
+ if(step==='origin'&&!creatorData.origin){alert('Escolha de onde seu personagem vem.');return}
+ if(step==='appearance'&&['gender','skin','hairType','hairColor','eyeColor'].some(k=>!creatorData[k])){alert('Complete as características principais da aparência.');return}
+ if(step==='history'&&creatorData.historyMode==='write'&&!creatorData.history.trim()){alert('Escreva um pouco da história ou escolha passado aleatório.');return}
+ if(step==='review'){finishCreator();return}
+ creatorIndex++;renderCreator();
+}
+function renderCreator(){
+ const step=creatorSteps[creatorIndex], total=creatorSteps.length;
+ document.getElementById('creatorStepLabel').textContent=`Etapa ${creatorIndex+1} de ${total}`;
+ document.getElementById('creatorProgressBar').style.width=((creatorIndex+1)/total*100)+'%';
+ document.getElementById('creatorBack').textContent=creatorIndex===0?'CANCELAR':'VOLTAR';
+ let body='';
+ const field=(label,key,placeholder,type='text')=>`<div class="creator-field"><label>${label}</label><input type="${type}" value="${esc(creatorData[key])}" placeholder="${placeholder}" oninput="creatorData.${key}=this.value"></div>`;
+ if(step==='species'){
+  body=`<div class="creator-kicker">Escolha sua natureza</div><h2 class="creator-question">Quem você é?</h2><p class="creator-hint">Nesta atualização, a criação de vampiros originais está disponível. As demais espécies serão liberadas conforme seus fluxos forem definidos.</p><div class="creator-options">${['Vampiro','Bruxa','Lobisomem','Humano','Híbrido','Outras espécies'].map((s,i)=>`<button class="creator-option ${i===0?'selected':''}" ${i?'disabled':''} type="button"><strong>${s}</strong><small>${i?'Em preparação':'Disponível nesta atualização'}</small></button>`).join('')}</div>`;
+ }else if(step==='name'){
+  body=`<div class="creator-kicker">Identidade</div><h2 class="creator-question">Qual é o seu nome?</h2><p class="creator-hint">Digite o nome completo pelo qual seu personagem será conhecido.</p>${field('Nome completo','name','Nome e sobrenome')}`;
+ }else if(step==='age'){
+  body=`<div class="creator-kicker">Identidade</div><h2 class="creator-question">Quantos anos você tem?</h2><p class="creator-hint">Informe sua idade atual. A idade será usada para manter a cronologia coerente.</p>${field('Idade atual','age','Ex.: 21','number')}`;
+ }else if(step==='turnYear'){
+  body=`<div class="creator-kicker">Passado</div><h2 class="creator-question">Em que ano você foi transformado?</h2><p class="creator-hint">Esse dado ajuda a calcular há quanto tempo você é vampiro.</p>${field('Ano da transformação','turnYear','Ex.: 1892','number')}`;
+ }else if(step==='lineage'){
+  body=`<div class="creator-kicker">Sangue e origem</div><h2 class="creator-question">Qual é a sua linhagem?</h2><p class="creator-hint">Escolha a linhagem de origem. Mistério significa que seu personagem não sabe quem o transformou.</p><div class="creator-lineage">${creatorOptions.lineage.map((v,i)=>optionButton(`<span style="font-size:24px">${['♛','⚜','☽','✦','❖','?'][i]}</span><strong>${v}</strong>`,'lineage',v)).join('')}</div>`;
+ }else if(step==='origin'){
+  body=`<div class="creator-kicker">Procedência</div><h2 class="creator-question">De onde você vem?</h2><p class="creator-hint">Escolha sua origem antes de chegar à história principal.</p><div class="creator-location">${[['Mystic Falls','Praça_Outonal_do_Relógio.webp'],['Nova Orleans','Noite_no_Bairro_Francês_sob_a_Lua_Vermelha.webp'],['Outro Lugar','Cidade_Medieval_ao_Pôr_do_Sol.webp']].map(([v,img])=>`<button type="button" class="creator-option ${creatorData.origin===v?'selected':''}" onclick="setCreatorValue('origin','${v}')"><img src="assets/${img}" alt=""><span>${v}</span></button>`).join('')}</div>`;
+ }else if(step==='appearance'){
+  const select=(label,key,opts)=>`<div><label>${label}</label><select onchange="creatorData.${key}=this.value"><option value="">Selecione</option>${opts.map(x=>`<option ${creatorData[key]===x?'selected':''}>${x}</option>`).join('')}</select></div>`;
+  body=`<div class="creator-kicker">Aparência</div><h2 class="creator-question">Como você se parece?</h2><p class="creator-hint">Defina as características principais. O editor visual em pixel art será uma etapa própria de uma próxima evolução desta criação.</p><div class="creator-field" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px">${select('Gênero','gender',['Feminino','Masculino','Não binário'])}${select('Tom de pele','skin',['Muito claro','Claro','Médio claro','Médio','Moreno','Marrom profundo','Ébano'])}${select('Tipo de cabelo','hairType',['Liso','Ondulado','Cacheado','Crespo','Careca'])}${select('Cor do cabelo','hairColor',['Preto','Castanho escuro','Castanho','Loiro','Ruivo','Grisalho','Branco','Colorido'])}${select('Cor dos olhos','eyeColor',['Castanho','Mel','Verde','Azul','Cinza','Vermelho sobrenatural','Violeta'])}${select('Vestuário','clothing',['Casual','Gótico','Elegante','Vitoriano','Acadêmico','Personalizado'])}${select('Acessórios','accessories',['Nenhum','Joias','Colar','Anéis','Óculos','Acessórios variados'])}</div>`;
+ }else if(step==='personality'){
+  body=`<div class="creator-kicker">Personalidade</div><h2 class="creator-question">Como você é?</h2><p class="creator-hint">Escolha até três características. Selecionadas: ${creatorData.personality.length}/3.</p><div>${creatorOptions.personality.map(v=>`<button type="button" class="creator-chip ${creatorData.personality.includes(v)?'selected':''}" onclick="togglePersonality('${v}')">${v}</button>`).join('')}</div>`;
+ }else if(step==='history'){
+  body=`<div class="creator-kicker">Sua história</div><h2 class="creator-question">O que aconteceu antes de Mystic Falls?</h2><p class="creator-hint">Você pode escrever seu passado ou deixar que o jogo sorteie uma origem narrativa para você.</p><div class="creator-options"><button class="creator-option ${creatorData.historyMode==='write'?'selected':''}" onclick="creatorData.historyMode='write';renderCreator()">Escrever minha história</button><button class="creator-option ${creatorData.historyMode==='random'?'selected':''}" onclick="creatorData.historyMode='random';renderCreator()">Gerar passado aleatório</button></div>${creatorData.historyMode==='write'?`<div class="creator-field"><label>Seu passado</label><textarea oninput="creatorData.history=this.value" placeholder="Conte sobre sua vida, relações, segredos e o motivo da chegada...">${esc(creatorData.history)}</textarea></div>`:'<div class="notice">O jogo criará um passado inicial coerente com sua idade, linhagem, transformação e local de origem.</div>'}`;
+ }else{
+  body=`<div class="creator-kicker">Confirmação</div><h2 class="creator-question">Sua personagem está pronta?</h2><p class="creator-hint">Confira os dados antes de criar sua história.</p><div class="creator-summary">${[['Nome',creatorData.name],['Espécie','Vampiro'],['Idade',creatorData.age+' anos'],['Transformação',creatorData.turnYear],['Linhagem',creatorData.lineage],['Origem',creatorData.origin],['Personalidade',creatorData.personality.join(', ')||'A descobrir'],['Aparência',[creatorData.gender,creatorData.skin,creatorData.hairType,creatorData.hairColor,creatorData.eyeColor].join(' · ')],['História',creatorData.historyMode==='random'?'Passado aleatório':creatorData.history]].map(([k,v])=>`<div><b>${k}</b>${esc(v)}</div>`).join('')}</div>`;
+ }
+ document.getElementById('creatorContent').innerHTML=body;
+ document.getElementById('creatorNext').textContent=step==='review'?'CRIAR PERSONAGEM':'CONTINUAR';
+}
+function togglePersonality(v){if(creatorData.personality.includes(v))creatorData.personality=creatorData.personality.filter(x=>x!==v);else if(creatorData.personality.length<3)creatorData.personality.push(v);else{alert('Você pode escolher no máximo três características.');return}renderCreator()}
+function finishCreator(){
+ let backstory=creatorData.historyMode==='random'?`Você viveu por anos entre ${creatorData.origin}, tentando manter sua natureza em segredo. Sua transformação em ${creatorData.turnYear} mudou o curso da sua vida. A identidade de quem o transformou está ligada à linhagem ${creatorData.lineage}, embora nem todas as respostas estejam claras.`:creatorData.history;
+ let prologue=`ANTES DE MYSTIC FALLS\n${creatorData.name} nasceu para uma vida que jamais seguiria um caminho comum. Aos ${creatorData.age} anos, sua existência mudou com a transformação ocorrida em ${creatorData.turnYear}.\n\nLINHAGEM\n${creatorData.lineage==='Mistério'?'A identidade de seu criador permanece desconhecida.':creatorData.lineage+'.'}\n\nORIGEM\n${creatorData.origin}.\n\nPASSADO\n${backstory}\n\nPERSONALIDADE\n${creatorData.personality.join(', ')||'Ainda em descoberta'}.\n\nEm 2034, uma nova etapa começa. Por razões que ainda serão reveladas, seus passos a conduzem até Mystic Falls.`;
+ d={id:id(),name:creatorData.name,kind:'original',species:'Vampiro',links:'Linhagem: '+creatorData.lineage,bio:backstory,age:Number(creatorData.age),city:'Mystic Falls',place:'Chegada à cidade',year:2034,prologue,creator:{...creatorData},scenes:[],messages:[]};
+ if(creatorCreatedId){const oldIndex=worlds.findIndex(w=>w.id===creatorCreatedId);if(oldIndex>=0)worlds[oldIndex]=d;else worlds.push(d)}else{worlds.push(d)}creatorCreatedId=d.id;active=d.id;save();
+ document.getElementById('creatorWizard').classList.add('hidden');
+ document.getElementById('prehistory').classList.remove('hidden');
+ document.body.classList.add('creator-open');
+ document.getElementById('prehistoryText').textContent='';
+ typeWriter(prologue,0);
+}
+let typeTimer=null;
+function typeWriter(text,index){const el=document.getElementById('prehistoryText');if(index===0)el.textContent='';if(index<text.length){el.textContent+=text.slice(index,index+3);typeTimer=setTimeout(()=>typeWriter(text,index+3),18)}}
+function backToCreator(){if(typeTimer)clearTimeout(typeTimer);document.getElementById('prehistory').classList.add('hidden');document.getElementById('creatorWizard').classList.remove('hidden');creatorIndex=creatorSteps.length-1;renderCreator()}
+function enterMysticFalls(){if(typeTimer)clearTimeout(typeTimer);document.body.classList.remove('creator-open');document.getElementById('prehistory').classList.add('hidden');show('game')}
+
 </script></body></html>
