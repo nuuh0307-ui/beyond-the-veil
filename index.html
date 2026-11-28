@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
 <meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1">
-<meta name="theme-color" content="#160d1b"><title>Beyond the Veil · v2.1.0</title>
+<meta name="theme-color" content="#160d1b"><title>Beyond the Veil · v2.2.0</title>
 <style>
 :root{--bg:#140d18;--panel:#241827;--panel2:#302033;--gold:#c9a96e;--text:#eee0d0;--muted:#bbaab4;--line:#674d62;--red:#9b4055}
 *{box-sizing:border-box}body{margin:0;background:radial-gradient(ellipse at top,#38213c,#140d18 65%);color:var(--text);font-family:Georgia,serif;min-height:100vh}
@@ -94,6 +94,29 @@ body.creator-open{overflow:hidden}
 .asset-count{color:#d7bd91;font:12px Arial;margin:10px 0}
 @media(max-width:620px){.asset-grid{grid-template-columns:repeat(2,minmax(0,1fr));gap:8px}.asset-card img{height:170px}.asset-scene-strip{grid-template-columns:1fr}.asset-scene{min-height:105px}}
 
+
+/* v2.2 — integração contextual do pack visual */
+.species-visual-grid{display:grid;grid-template-columns:repeat(6,minmax(0,1fr));gap:10px;margin:18px 0}
+.species-visual-card{padding:0;overflow:hidden;display:flex;flex-direction:column;min-width:0;text-align:left}
+.species-visual-card img{width:100%;height:108px;object-fit:cover;display:block;opacity:.88}
+.species-visual-card .species-copy{padding:10px}
+.species-visual-card strong{display:block;color:#e8c58f}
+.species-visual-card small{display:block;color:#c4b3bd;margin-top:5px}
+.species-visual-card:disabled{opacity:.62;filter:saturate(.72)}
+.portrait-reference-wrap,.story-art-wrap{margin:18px 0;padding:14px;border:1px solid #654b60;background:#1b1420}
+.visual-strip{display:flex;gap:10px;overflow-x:auto;padding:5px 2px 12px;scroll-snap-type:x mandatory}
+.visual-choice{flex:0 0 116px;border:1px solid #71566b;background:#211725;padding:5px;color:#eee;cursor:pointer;scroll-snap-align:start;text-align:left}
+.visual-choice img{width:100%;height:116px;object-fit:cover;display:block}
+.visual-choice span{display:block;font-size:11px;line-height:1.35;padding:6px 2px 2px}
+.visual-choice.selected{border:2px solid #d5ad77;background:#4a293a}
+.visual-choice.selected img{opacity:1}
+.visual-choice .choice-state{color:#e5c58f;font-size:10px}
+.creator-selected-art{display:flex;align-items:center;gap:12px;margin-top:8px;color:#d7c3cf;font-size:12px}
+.creator-selected-art img{width:54px;height:64px;object-fit:cover;border:1px solid #b58b60}
+.asset-card img{object-fit:cover}
+@media(max-width:900px){.species-visual-grid{grid-template-columns:repeat(3,minmax(0,1fr))}.species-visual-card img{height:90px}}
+@media(max-width:520px){.species-visual-grid{grid-template-columns:repeat(2,minmax(0,1fr))}.species-visual-card img{height:100px}}
+
 </style></head>
 <body class="home-screen">
 <header><div class="brand"><svg viewBox="0 0 100 100" role="img" aria-label="Selo Beyond the Veil"><path d="M50 4 91 27 91 73 50 96 9 73 9 27Z" fill="#211426" stroke="#c9a96e" stroke-width="3"/><path d="M50 15 78 31 78 68 50 84 22 68 22 31Z" fill="none" stroke="#806044"/><path d="M50 20c-19 18-19 39 0 58 19-19 19-40 0-58Z" fill="none" stroke="#c9a96e" stroke-width="2"/><path d="M50 29v42M31 50h38" stroke="#c9a96e" stroke-width="2"/><circle cx="50" cy="50" r="6" fill="#9b4055"/></svg> BEYOND THE VEIL</div><span class="ver">VERSÃO 2.0.0</span></header>
@@ -151,7 +174,7 @@ body.creator-open{overflow:hidden}
 <div class="asset-intro">
  <div class="tag">Beyond the Veil · Arquivo visual</div>
  <h2>O acervo do Véu</h2>
- <p class="creator-hint">As artes do pack BTV organizadas por função narrativa. Retratos podem representar NPCs ou servir como referências visuais; nenhuma identidade é atribuída automaticamente.</p>
+ <p class="creator-hint">As artes do pack BTV também aparecem nos cartões de espécie, nas referências de aparência e nas inspirações de história. Retratos podem representar NPCs ou servir como referências visuais; nenhuma identidade é atribuída automaticamente.</p>
 </div>
 <div class="asset-scene-strip">
  <div class="asset-scene" style="background-image:url('assets/Praça_Outonal_do_Relógio.webp')"><strong>Mystic Falls · fundo ilustrativo</strong></div>
@@ -198,7 +221,7 @@ O editor modular de avatar em pixel art continua sendo uma etapa futura: estas a
  </div>
 </section>
 
-</main><div class="foot">BEYOND THE VEIL · v2.1.0 · O véu guarda cada história.</div>
+</main><div class="foot">BEYOND THE VEIL · v2.2.0 · O véu guarda cada história.</div>
 <script>
 const KEY='beyondVeil_worlds_v110';let worlds=JSON.parse(localStorage.getItem(KEY)||'[]'),active=localStorage.getItem(KEY+'_active')||'',d=worlds.find(x=>x.id===active)||null;
 const places={'Mystic Falls':['Casa dos Salvatore','Mystic Grill','Praça da cidade','Casa dos Gilbert','Hospital','Floresta','Cemitério'],'Nova Orleans':['Complexo Mikaelson','French Quarter','Abattoir','Cemitério Lafayette','Bayou'],'Escola Salvatore':['Prédio principal','Dormitórios','Biblioteca','Ginásio','Jardins']};
@@ -386,14 +409,14 @@ function advance(){if(!document.getElementById('agree').checked){alert('Marque a
 /* ===== BTV v2.0 — fluxo de criação de personagem original ===== */
 const creatorSteps=['species','name','age','turnYear','lineage','origin','appearance','personality','history','review'];
 let creatorIndex=0, creatorCreatedId=null;
-let creatorData={species:'Vampiro',name:'',age:'',turnYear:'',lineage:'',origin:'',gender:'',skin:'',hairType:'',hairColor:'',eyeColor:'',clothing:'',accessories:'',personality:[],historyMode:'write',history:''};
+let creatorData={species:'Vampiro',name:'',age:'',turnYear:'',lineage:'',origin:'',gender:'',skin:'',hairType:'',hairColor:'',eyeColor:'',clothing:'',accessories:'',referencePortrait:'',storyArt:'',personality:[],historyMode:'write',history:''};
 const creatorOptions={
  lineage:['Rebekah Mikaelson','Klaus Mikaelson','Kol Mikaelson','Elijah Mikaelson','Hope Mikaelson','Mistério'],
  personality:['Leal','Impulsivo(a)','Reservado(a)','Sarcástico(a)','Compassivo(a)','Ambicioso(a)','Sedutor(a)','Desconfiado(a)','Protetor(a)','Vingativo(a)','Curioso(a)','Manipulador(a)'],
  origins:['Mystic Falls','Nova Orleans','Outro Lugar']
 };
 function startCreator(){
- creatorData={species:'Vampiro',name:'',age:'',turnYear:'',lineage:'',origin:'',gender:'',skin:'',hairType:'',hairColor:'',eyeColor:'',clothing:'',accessories:'',personality:[],historyMode:'write',history:''};
+ creatorData={species:'Vampiro',name:'',age:'',turnYear:'',lineage:'',origin:'',gender:'',skin:'',hairType:'',hairColor:'',eyeColor:'',clothing:'',accessories:'',referencePortrait:'',storyArt:'',personality:[],historyMode:'write',history:''};
  creatorIndex=0;creatorCreatedId=null;renderCreator();document.getElementById('creatorWizard').classList.remove('hidden');document.body.classList.add('creator-open');
 }
 function closeCreator(){document.getElementById('creatorWizard').classList.add('hidden');document.body.classList.remove('creator-open');show('home')}
@@ -412,6 +435,37 @@ function creatorNext(){
  if(step==='review'){finishCreator();return}
  creatorIndex++;renderCreator();
 }
+
+const creatorPortraitRefs=[
+ 'Retrato_Aristocrático_em_Pixel_Art.webp',
+ 'Retrato_Erudito_à_Luz_de_Velas.webp',
+ 'Retrato_Gótico_à_Luz_de_Velas.webp',
+ 'Retrato_Gótico_ao_Entardecer.webp',
+ 'Retrato_Gótico_com_Magia_Rubra.webp',
+ 'Retrato_Gótico_do_Vampiro_Carmesim.webp',
+ 'Retrato_Gótico_sob_a_Lua_Carmesim.webp',
+ 'Retrato_Gótico_sob_a_Lua_de_Sangue.webp',
+ 'Retrato_Gótico_Sob_a_Lua_Vermelha_1.webp',
+ 'Retrato_Gótico_Sob_a_Lua_Vermelha_2.webp',
+ 'Retrato_Gótico_sob_a_Lua_Vermelha.webp',
+ 'Retrato_Gótico_sob_Lua_de_Sangue.webp',
+ 'Retrato_Místico_sob_a_Lua_Vermelha.webp',
+ 'Retrato_Pixelado_ao_Entardecer.webp',
+ 'Retrato_Sombrio_na_Floresta_Outonal.webp'
+];
+const storyArtRefs=[
+ 'Bruxa_da_Biblioteca_Arcana.webp',
+ 'Bruxa_da_Floresta_Encantada.webp',
+ 'Bruxa_e_Orbe_de_Energia_Violeta.webp',
+ 'Feiticeira_no_Ritual_do_Cálice_Rubro.webp',
+ 'Feiticeira_sob_o_Eclipse_Rubro.webp',
+ 'Ritual_de_Magia_Ancestral.webp',
+ 'Ritual_dos_Viajantes_Sob_a_Lua.webp'
+];
+function chooseVisualReference(key,file){creatorData[key]=creatorData[key]===file?'':file;renderCreator()}
+function visualChoiceStrip(files,key){
+ return `<div class="visual-strip">${files.map(file=>{const title=file.replace(/\\.webp$/i,'').replace(/_/g,' ').replace(/\\b\\w/g,c=>c.toUpperCase());const selected=creatorData[key]===file;return `<button type="button" class="visual-choice ${selected?'selected':''}" onclick="chooseVisualReference('${key}','${file}')"><img src="assets/${file}" alt="${title}" loading="lazy"><span>${title}</span>${selected?'<span class="choice-state">Selecionado</span>':''}</button>`}).join('')}</div>`;
+}
 function renderCreator(){
  const step=creatorSteps[creatorIndex], total=creatorSteps.length;
  document.getElementById('creatorStepLabel').textContent=`Etapa ${creatorIndex+1} de ${total}`;
@@ -420,7 +474,15 @@ function renderCreator(){
  let body='';
  const field=(label,key,placeholder,type='text')=>`<div class="creator-field"><label>${label}</label><input type="${type}" value="${esc(creatorData[key])}" placeholder="${placeholder}" oninput="creatorData.${key}=this.value"></div>`;
  if(step==='species'){
-  body=`<div class="creator-kicker">Escolha sua natureza</div><h2 class="creator-question">Quem você é?</h2><p class="creator-hint">Nesta atualização, a criação de vampiros originais está disponível. As demais espécies serão liberadas conforme seus fluxos forem definidos.</p><div class="creator-options">${['Vampiro','Bruxa','Lobisomem','Humano','Híbrido','Outras espécies'].map((s,i)=>`<button class="creator-option ${i===0?'selected':''}" ${i?'disabled':''} type="button"><strong>${s}</strong><small>${i?'Em preparação':'Disponível nesta atualização'}</small></button>`).join('')}</div>`;
+  const speciesCards=[
+   ['Vampiro','Retrato_Gótico_do_Vampiro_Carmesim.webp','Disponível nesta atualização',false],
+   ['Bruxa','Bruxa_da_Biblioteca_Arcana.webp','Fluxo de criação em preparação',true],
+   ['Lobisomem','Lobisomem_Sob_a_Lua_Dourada.webp','Fluxo de criação em preparação',true],
+   ['Humano','Retrato_Erudito_à_Luz_de_Velas.webp','Fluxo de criação em preparação',true],
+   ['Híbrido','Retrato_de_Vampiro_Lobisomem_em_Moldura_Dourada.webp','Fluxo de criação em preparação',true],
+   ['Outras espécies','Ritual_de_Magia_Ancestral.webp','Outras naturezas sobrenaturais',true]
+  ];
+  body=`<div class="creator-kicker">Escolha sua natureza</div><h2 class="creator-question">Quem você é?</h2><p class="creator-hint">As artes já apresentam a identidade visual de cada caminho. Nesta atualização, a criação jogável disponível é a de vampiros originais.</p><div class="species-visual-grid">${speciesCards.map(([name,img,desc,locked],i)=>`<button class="creator-option species-visual-card ${i===0?'selected':''}" ${locked?'disabled':''} type="button"><img src="assets/${img}" alt="${name}" loading="lazy"><span class="species-copy"><strong>${name}</strong><small>${desc}</small></span></button>`).join('')}</div>`;
  }else if(step==='name'){
   body=`<div class="creator-kicker">Identidade</div><h2 class="creator-question">Qual é o seu nome?</h2><p class="creator-hint">Digite o nome completo pelo qual seu personagem será conhecido.</p>${field('Nome completo','name','Nome e sobrenome')}`;
  }else if(step==='age'){
@@ -433,13 +495,15 @@ function renderCreator(){
   body=`<div class="creator-kicker">Procedência</div><h2 class="creator-question">De onde você vem?</h2><p class="creator-hint">Escolha sua origem antes de chegar à história principal.</p><div class="creator-location">${[['Mystic Falls','Praça_Outonal_do_Relógio.webp'],['Nova Orleans','Noite_no_Bairro_Francês_sob_a_Lua_Vermelha.webp'],['Outro Lugar','Cidade_Medieval_ao_Pôr_do_Sol.webp']].map(([v,img])=>`<button type="button" class="creator-option ${creatorData.origin===v?'selected':''}" onclick="setCreatorValue('origin','${v}')"><img src="assets/${img}" alt=""><span>${v}</span></button>`).join('')}</div>`;
  }else if(step==='appearance'){
   const select=(label,key,opts)=>`<div><label>${label}</label><select onchange="creatorData.${key}=this.value"><option value="">Selecione</option>${opts.map(x=>`<option ${creatorData[key]===x?'selected':''}>${x}</option>`).join('')}</select></div>`;
-  body=`<div class="creator-kicker">Aparência</div><h2 class="creator-question">Como você se parece?</h2><p class="creator-hint">Defina as características principais. O editor visual em pixel art será uma etapa própria de uma próxima evolução desta criação.</p><div class="creator-field" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px">${select('Gênero','gender',['Feminino','Masculino','Não binário'])}${select('Tom de pele','skin',['Muito claro','Claro','Médio claro','Médio','Moreno','Marrom profundo','Ébano'])}${select('Tipo de cabelo','hairType',['Liso','Ondulado','Cacheado','Crespo','Careca'])}${select('Cor do cabelo','hairColor',['Preto','Castanho escuro','Castanho','Loiro','Ruivo','Grisalho','Branco','Colorido'])}${select('Cor dos olhos','eyeColor',['Castanho','Mel','Verde','Azul','Cinza','Vermelho sobrenatural','Violeta'])}${select('Vestuário','clothing',['Casual','Gótico','Elegante','Vitoriano','Acadêmico','Personalizado'])}${select('Acessórios','accessories',['Nenhum','Joias','Colar','Anéis','Óculos','Acessórios variados'])}</div>`;
+  const chosen=creatorData.referencePortrait?`<div class="creator-selected-art"><img src="assets/${creatorData.referencePortrait}" alt="Retrato de referência"><span>Retrato de referência selecionado. Ele será salvo na ficha como inspiração visual, não como avatar editável.</span></div>`:'<p class="creator-hint">Nenhum retrato selecionado. Esta escolha é opcional.</p>';
+  body=`<div class="creator-kicker">Aparência</div><h2 class="creator-question">Como você se parece?</h2><p class="creator-hint">Defina as características principais e, se quiser, escolha um retrato do pack como referência visual. O editor modular em pixel art continua planejado para uma etapa futura.</p><div class="creator-field" style="display:grid;grid-template-columns:repeat(auto-fit,minmax(190px,1fr));gap:8px">${select('Gênero','gender',['Feminino','Masculino','Não binário'])}${select('Tom de pele','skin',['Muito claro','Claro','Médio claro','Médio','Moreno','Marrom profundo','Ébano'])}${select('Tipo de cabelo','hairType',['Liso','Ondulado','Cacheado','Crespo','Careca'])}${select('Cor do cabelo','hairColor',['Preto','Castanho escuro','Castanho','Loiro','Ruivo','Grisalho','Branco','Colorido'])}${select('Cor dos olhos','eyeColor',['Castanho','Mel','Verde','Azul','Cinza','Vermelho sobrenatural','Violeta'])}${select('Vestuário','clothing',['Casual','Gótico','Elegante','Vitoriano','Acadêmico','Personalizado'])}${select('Acessórios','accessories',['Nenhum','Joias','Colar','Anéis','Óculos','Acessórios variados'])}</div><div class="portrait-reference-wrap"><div class="creator-kicker">Retratos do pack · referência visual</div><p class="creator-hint">Escolha um retrato para inspirar a aparência do personagem. Alguns retratos também ficam reservados para futuros NPCs com identidade própria.</p>${visualChoiceStrip(creatorPortraitRefs,'referencePortrait')}${chosen}</div>`;
  }else if(step==='personality'){
   body=`<div class="creator-kicker">Personalidade</div><h2 class="creator-question">Como você é?</h2><p class="creator-hint">Escolha até três características. Selecionadas: ${creatorData.personality.length}/3.</p><div>${creatorOptions.personality.map(v=>`<button type="button" class="creator-chip ${creatorData.personality.includes(v)?'selected':''}" onclick="togglePersonality('${v}')">${v}</button>`).join('')}</div>`;
  }else if(step==='history'){
-  body=`<div class="creator-kicker">Sua história</div><h2 class="creator-question">O que aconteceu antes de Mystic Falls?</h2><p class="creator-hint">Você pode escrever seu passado ou deixar que o jogo sorteie uma origem narrativa para você.</p><div class="creator-options"><button class="creator-option ${creatorData.historyMode==='write'?'selected':''}" onclick="creatorData.historyMode='write';renderCreator()">Escrever minha história</button><button class="creator-option ${creatorData.historyMode==='random'?'selected':''}" onclick="creatorData.historyMode='random';renderCreator()">Gerar passado aleatório</button></div>${creatorData.historyMode==='write'?`<div class="creator-field"><label>Seu passado</label><textarea oninput="creatorData.history=this.value" placeholder="Conte sobre sua vida, relações, segredos e o motivo da chegada...">${esc(creatorData.history)}</textarea></div>`:'<div class="notice">O jogo criará um passado inicial coerente com sua idade, linhagem, transformação e local de origem.</div>'}`;
+  const chosenStory=creatorData.storyArt?`<div class="creator-selected-art"><img src="assets/${creatorData.storyArt}" alt="Referência de história"><span>Referência visual escolhida para inspirar o passado. Ela não altera automaticamente os fatos da história.</span></div>`:'';
+  body=`<div class="creator-kicker">Sua história</div><h2 class="creator-question">O que aconteceu antes de Mystic Falls?</h2><p class="creator-hint">Você pode escrever seu passado ou deixar que o jogo sorteie uma origem narrativa para você.</p><div class="creator-options"><button class="creator-option ${creatorData.historyMode==='write'?'selected':''}" onclick="creatorData.historyMode='write';renderCreator()">Escrever minha história</button><button class="creator-option ${creatorData.historyMode==='random'?'selected':''}" onclick="creatorData.historyMode='random';renderCreator()">Gerar passado aleatório</button></div>${creatorData.historyMode==='write'?`<div class="creator-field"><label>Seu passado</label><textarea oninput="creatorData.history=this.value" placeholder="Conte sobre sua vida, relações, segredos e o motivo da chegada...">${esc(creatorData.history)}</textarea></div>`:'<div class="notice">O jogo criará um passado inicial coerente com sua idade, linhagem, transformação e local de origem.</div>'}<div class="story-art-wrap"><div class="creator-kicker">Artes de magia e rituais · inspiração opcional</div><p class="creator-hint">Estas imagens podem inspirar acontecimentos sobrenaturais do passado do personagem. A escolha é visual e não cria poderes ou eventos automaticamente.</p>${visualChoiceStrip(storyArtRefs,'storyArt')}${chosenStory}</div>`;
  }else{
-  body=`<div class="creator-kicker">Confirmação</div><h2 class="creator-question">Sua personagem está pronta?</h2><p class="creator-hint">Confira os dados antes de criar sua história.</p><div class="creator-summary">${[['Nome',creatorData.name],['Espécie','Vampiro'],['Idade',creatorData.age+' anos'],['Transformação',creatorData.turnYear],['Linhagem',creatorData.lineage],['Origem',creatorData.origin],['Personalidade',creatorData.personality.join(', ')||'A descobrir'],['Aparência',[creatorData.gender,creatorData.skin,creatorData.hairType,creatorData.hairColor,creatorData.eyeColor].join(' · ')],['História',creatorData.historyMode==='random'?'Passado aleatório':creatorData.history]].map(([k,v])=>`<div><b>${k}</b>${esc(v)}</div>`).join('')}</div>`;
+  body=`<div class="creator-kicker">Confirmação</div><h2 class="creator-question">Sua personagem está pronta?</h2><p class="creator-hint">Confira os dados antes de criar sua história.</p><div class="creator-summary">${[['Nome',creatorData.name],['Espécie','Vampiro'],['Idade',creatorData.age+' anos'],['Transformação',creatorData.turnYear],['Linhagem',creatorData.lineage],['Origem',creatorData.origin],['Personalidade',creatorData.personality.join(', ')||'A descobrir'],['Aparência',[creatorData.gender,creatorData.skin,creatorData.hairType,creatorData.hairColor,creatorData.eyeColor].join(' · ')],['História',creatorData.historyMode==='random'?'Passado aleatório':creatorData.history],['Retrato de referência',creatorData.referencePortrait||'Não selecionado'],['Arte de inspiração',creatorData.storyArt||'Não selecionada']].map(([k,v])=>`<div><b>${k}</b>${esc(v)}</div>`).join('')}</div>`;
  }
  document.getElementById('creatorContent').innerHTML=body;
  document.getElementById('creatorNext').textContent=step==='review'?'CRIAR PERSONAGEM':'CONTINUAR';
